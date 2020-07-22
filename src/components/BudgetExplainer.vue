@@ -1,18 +1,20 @@
 <template>
-   <div class="container">
-    <div class="level is-mobile paginator px-5">
-      <div class="level-left">
-        <p class="level-item">Page:</p>
-        <a
-          tab-index=0
-          v-for="page in pages"
-          :key="page"
-          class="level-item page-link"
-          @click="setPage(page)"
-          >
+   <div class="grid-container">
+    <div class="grid-row paginator padding-x-5 text-middle text-center text-bold">
+
+      <a
+        tabindex="0"
+        v-for="page in pages"
+        :key="page"
+        @click="setPage(page)"
+        @keyup.enter="setPage(page)"
+        class="grid-col page-link margin-1"
+        v-bind:class="{ 'border-05': page===activePage}"
+        >
+        <p>
           {{ page }}
-        </a>
-      </div>
+        </p>
+      </a>
     </div>
 
     <Explainer :imageSrc="getImgUrl(activePage)" :areas="activeAreas" />
@@ -62,3 +64,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+a {
+  cursor: pointer;
+}
+</style>
