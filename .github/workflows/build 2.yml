@@ -1,0 +1,45 @@
+name: Build and Deploy Website
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+          registry-url: https://npm.pkg.github.com
+          scope: '@brown-ccv'
+
+      - name: Pull cache if available
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: npm-use-node-12-${{ hashFiles('**/package-lock.lock') }}
+          restore-keys: |
+            npm-use-node-12-
+
+      - name: npm install
+        run: npm install
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build the page
+        run: npm run build
+
+      - name: Push to GH Pages
+        uses: JamesIves/github-pages-deploy-action@3.5.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: gh-pages
+          FOLDER: dist
