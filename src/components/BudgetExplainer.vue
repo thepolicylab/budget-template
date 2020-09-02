@@ -1,6 +1,6 @@
 <template>
    <div class="grid-container">
-    <div class="grid-row paginator padding-x-5 text-middle text-center text-bold">
+    <div class="grid-row paginator padding-x-0 text-middle text-center text-bold margin-bottom-1">
 
       <a
         tabindex="0"
@@ -8,10 +8,10 @@
         :key="page"
         @click="setPage(page)"
         @keyup.enter="setPage(page)"
-        class="grid-col page-link margin-1"
-        v-bind:class="{ 'border-05': page===activePage}"
+        class="grid-col page-link margin-0 border-2px border-transparent"
+        v-bind:class="{ 'border-black': page===activePage}"
         >
-        <p>
+        <p class="margin-y-105">
           {{ page }}
         </p>
       </a>
